@@ -1,0 +1,11 @@
+<div class="card-container">
+  <div class="text-container">
+    <textarea class="title" [(ngModel)]="title">{{ title }}</textarea>
+    <textarea class="content" [(ngModel)]="content">{{ content }}</textarea>
+  </div>
+
+  <div class="btn-container">
+    <button (click)="revert()">Revert</button>
+    <button (click)="saveNote()">Save</button>
+  </div>
+</div>

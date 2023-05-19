@@ -1,0 +1,4 @@
+<div class="note-list-container" *ngFor="let note of notes">
+  <span (click)="displayNote(note)">{{ note.title }}</span>
+  <button class="del-btn" (click)="deleteNote(note.title)">X</button>
+</div>

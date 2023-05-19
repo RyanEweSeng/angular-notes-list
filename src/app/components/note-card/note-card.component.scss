@@ -1,0 +1,14 @@
+.card-container {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+}
+
+.title {
+  width: 50vw;
+}
+
+.content {
+  width: 50vw;
+  height: 25vh;
+}
