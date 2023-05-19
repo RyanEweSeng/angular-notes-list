@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Note } from 'src/app/interfaces/note';
 import { NoteService } from 'src/app/services/note.service';
 
@@ -7,47 +7,22 @@ import { NoteService } from 'src/app/services/note.service';
   templateUrl: './note-card.component.html',
   styleUrls: ['./note-card.component.scss']
 })
-export class NoteCardComponent implements OnInit {
+export class NoteCardComponent {
   @Input() note!: Note;
   @Output() emitSave: EventEmitter<Note> = new EventEmitter();
-
-  originalTitle!: string;
-  originalContent!: string;
-
-  title!: string;
-  content!: string;
+  @Output() emitRevert: EventEmitter<Note> = new EventEmitter();
 
   constructor(private noteService: NoteService) { }
 
-  ngOnInit() {
-    this.title = this.note.title;
-    this.content = this.note.content;
-    this.storeOriginal();
-  }
-
-  storeOriginal() {
-    this.originalTitle = this.note.title;
-    this.originalContent = this.note.content;
-  }
-
   revert() {
-    this.title = this.originalTitle;
-    this.content = this.originalContent;
+    this.emitRevert.emit(this.note);
   }
 
   saveNote() {
-    console.log(this.note);
     const newNote: Note = {
-      title: this.title,
-      content: this.content
+      title: this.note.title,
+      content: this.note.content
     }
-
-    if (this.originalTitle !== '' || this.originalContent !== '') this.noteService.deleteNote(this.originalTitle);
-
-    this.originalTitle = this.title;
-    this.originalContent = this.content;
-
-    this.noteService.addNote(newNote);
     this.emitSave.emit(newNote);
   }
 }

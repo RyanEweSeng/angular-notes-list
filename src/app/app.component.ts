@@ -10,25 +10,40 @@ import { NoteService } from './services/note.service';
 export class AppComponent implements OnInit {
   title = 'angular-assessment-practice';
   data!: Note[];
-  selectedNote!: Note;
+  saved: boolean = false;
+
+  selectedNote: Note = { title: '', content: '' };
+  originalNote: Note = this.selectedNote;
 
   constructor(private noteService: NoteService) { }
 
   ngOnInit() {
-    this.noteService.addNote({ title: 'first', content: 'first' });
-    this.noteService.addNote({ title: 'second', content: 'second' });
-    this.noteService.addNote({ title: 'third', content: 'third' });
     this.refresh();
   }
 
   onAddNote() {
     this.selectedNote = { title: '', content: '' };
-    console.log('add note')
+    this.originalNote = {...this.selectedNote};
   }
 
   onSelectNote(note: Note) {
-    this.selectedNote = note;
-    console.log('select note')
+    this.selectedNote = {...note};
+    this.originalNote = {...note};
+  }
+
+  onSave(newNote: Note) {
+    if (this.originalNote.title !== '' || this.originalNote.content !== '') this.noteService.deleteNote(this.originalNote.title);
+
+    this.noteService.addNote(newNote);
+
+    this.originalNote = newNote;
+    this.selectedNote = newNote;
+    this.saved = true;
+    this.refresh();
+  }
+
+  onRevert(note: Note) {
+    this.selectedNote = {...this.originalNote};
   }
 
   refresh() {

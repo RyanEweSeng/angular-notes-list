@@ -7,6 +7,6 @@
     <app-note-list [notes]="data" (emitDel)="refresh()" (emitDisplay)="onSelectNote($event)"/>
   </div>
   <div class="note-container">
-    <app-note-card [note]="selectedNote" (emitSave)="refresh()"/>
+    <app-note-card [note]="selectedNote" (emitSave)="onSave($event)" (emitRevert)="onRevert($event)"/>
   </div>
 </div>
